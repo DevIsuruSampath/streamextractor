@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 # @trojanzhex
 
-
 import time
 import json
 
@@ -14,7 +13,7 @@ DATA = {}
 
 async def download_file(client, message):
     media = message.reply_to_message
-    if media.empty:
+    if not media:
         await message.reply_text('Why did you delete that?? 😕', True)
         return
 
@@ -24,7 +23,7 @@ async def download_file(client, message):
         reply_markup=InlineKeyboardMarkup([
             [InlineKeyboardButton(text="Check Progress", callback_data="progress_msg")]
         ]),
-        reply_to_message_id=media.message_id
+        reply_to_message_id=media.id  # Changed message_id to id
     )
     filetype = media.document or media.video
 
@@ -51,7 +50,7 @@ async def download_file(client, message):
 
     details = json.loads(output[0])
     buttons = []
-    DATA[f"{message.chat.id}-{msg.message_id}"] = {}
+    DATA[f"{message.chat.id}-{msg.id}"] = {}  # Changed message_id to id
     for stream in details["streams"]:
         mapping = stream["index"]
         stream_name = stream["codec_name"]
@@ -65,27 +64,24 @@ async def download_file(client, message):
         except:
             lang = mapping
         
-        DATA[f"{message.chat.id}-{msg.message_id}"][int(mapping)] = {
-            "map" : mapping,
-            "name" : stream_name,
-            "type" : stream_type,
-            "lang" : lang,
-            "location" : download_location
+        DATA[f"{message.chat.id}-{msg.id}"][int(mapping)] = {  # Changed message_id to id
+            "map": mapping,
+            "name": stream_name,
+            "type": stream_type,
+            "lang": lang,
+            "location": download_location
         }
         buttons.append([
             InlineKeyboardButton(
-                f"{stream_type.upper()} - {str(lang).upper()}", f"{stream_type}_{mapping}_{message.chat.id}-{msg.message_id}"
+                f"{stream_type.upper()} - {str(lang).upper()}", f"{stream_type}_{mapping}_{message.chat.id}-{msg.id}"  # Changed message_id to id
             )
         ])
 
     buttons.append([
-        InlineKeyboardButton("CANCEL",f"cancel_{mapping}_{message.chat.id}-{msg.message_id}")
+        InlineKeyboardButton("CANCEL", f"cancel_{mapping}_{message.chat.id}-{msg.id}")  # Changed message_id to id
     ])    
 
     await msg.edit_text(
         "**Select the Stream to be Extracted...**",
         reply_markup=InlineKeyboardMarkup(buttons)
-        )
-
-
-
+    )

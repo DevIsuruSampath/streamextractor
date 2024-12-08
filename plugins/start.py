@@ -2,14 +2,12 @@
 # -*- coding: utf-8 -*-
 # @I_Am_Devil_Mafia
 
-
 from pyrogram import filters
 from pyrogram import Client as trojanz
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from config import Config
 from script import Script
-
 
 @trojanz.on_message(filters.command(["start"]) & filters.private)
 async def start(client, message):
@@ -28,9 +26,8 @@ async def start(client, message):
                 ]
             ]
         ),
-        reply_to_message_id=message.message_id
+        reply_to_message_id=message.id  # Changed message_id to id
     )
-
 
 @trojanz.on_message(filters.command(["help"]) & filters.private)
 async def help(client, message):
@@ -49,9 +46,8 @@ async def help(client, message):
                 ]
             ]
         ),
-        reply_to_message_id=message.message_id
+        reply_to_message_id=message.id  # Changed message_id to id
     )
-
 
 @trojanz.on_message(filters.command(["about"]) & filters.private)
 async def about(client, message):
@@ -70,5 +66,5 @@ async def about(client, message):
                 ]
             ]
         ),
-        reply_to_message_id=message.message_id
+        reply_to_message_id=message.id  # Changed message_id to id
     )
