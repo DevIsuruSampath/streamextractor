@@ -3,4 +3,3 @@ TgCrypto
 ffmpeg
 hachoir
 python-dotenv
-ffprobe
