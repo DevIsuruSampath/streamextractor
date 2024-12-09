@@ -1,6 +1,4 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-# @I_Am_Devil_Mafia
+
 
 from pyrogram import filters
 from pyrogram import Client as trojanz
