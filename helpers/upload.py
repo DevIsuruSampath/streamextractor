@@ -1,5 +1,3 @@
-
-
 import time
 
 from hachoir.parser import createParser
@@ -12,11 +10,11 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
 async def upload_audio(client, message, file_loc):
-
     msg = await message.edit_text(
-        text="**Uploading extracted stream...**",
+        text="**🎵 Uploading extracted audio stream...**",
         reply_markup=InlineKeyboardMarkup(
-            [[InlineKeyboardButton(text="Progress", callback_data="progress_msg")]])
+            [[InlineKeyboardButton(text="📊 Progress", callback_data="progress_msg")]]
+        )
     )
 
     title = None
@@ -39,20 +37,20 @@ async def upload_audio(client, message, file_loc):
             chat_id=message.chat.id,
             audio=file_loc,
             thumb=thumb,
-            caption="@I_Am_Devil_Mafia",
+            caption="🎵 Audio Uploaded via @I_Am_Devil_Mafia",
             title=title,
             performer=artist,
             duration=duration,
             progress=progress_func,
             progress_args=(
-                "**Uploading extracted stream...**",
+                "**🎵 Uploading extracted audio stream...**",
                 msg,
                 c_time
             )
         )
     except Exception as e:
         print(e)     
-        await msg.edit_text("**Some Error Occurred. See Logs for More Info.**")   
+        await msg.edit_text("❌ **An error occurred during audio upload. Check logs for more details.**")   
         return
 
     await msg.delete()
@@ -60,11 +58,11 @@ async def upload_audio(client, message, file_loc):
 
 
 async def upload_subtitle(client, message, file_loc):
-
     msg = await message.edit_text(
-        text="**Uploading extracted subtitle...**",
+        text="**📜 Uploading extracted subtitle...**",
         reply_markup=InlineKeyboardMarkup(
-            [[InlineKeyboardButton(text="Progress", callback_data="progress_msg")]])
+            [[InlineKeyboardButton(text="📊 Progress", callback_data="progress_msg")]]
+        )
     )
 
     c_time = time.time() 
@@ -73,17 +71,17 @@ async def upload_subtitle(client, message, file_loc):
         await client.send_document(
             chat_id=message.chat.id,
             document=file_loc,
-            caption="@I_Am_Devil_Mafia",
+            caption="📜 Subtitle Uploaded via @I_Am_Devil_Mafia",
             progress=progress_func,
             progress_args=(
-                "**Uploading extracted subtitle...**",
+                "**📜 Uploading extracted subtitle...**",
                 msg,
                 c_time
             )
         )
     except Exception as e:
         print(e)     
-        await msg.edit_text("**Some Error Occurred. See Logs for More Info.**")   
+        await msg.edit_text("❌ **An error occurred during subtitle upload. Check logs for more details.**")   
         return
 
     await msg.delete()
