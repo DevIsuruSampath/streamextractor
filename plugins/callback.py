@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# @trojanzhex
-
+# Updated with modern formatting and emojis
 
 from pyrogram import filters
 from pyrogram import Client as trojanz
@@ -22,9 +21,9 @@ async def cb_handler(client, query):
     if query.data == "start_data":
         await query.answer()
         keyboard = InlineKeyboardMarkup([
-            [InlineKeyboardButton("HELP", callback_data="help_data"),
-                InlineKeyboardButton("ABOUT", callback_data="about_data")],
-            [InlineKeyboardButton("Repo Owner", url="https://t.me/I_Am_Devil_Mafia")]
+            [InlineKeyboardButton("📖 HELP", callback_data="help_data"),
+             InlineKeyboardButton("ℹ️ ABOUT", callback_data="about_data")],
+            [InlineKeyboardButton("👤 Repo Owner", url="https://t.me/I_Am_Devil_Mafia")]
         ])
 
         await query.message.edit_text(
@@ -34,13 +33,12 @@ async def cb_handler(client, query):
         )
         return
 
-
     elif query.data == "help_data":
         await query.answer()
         keyboard = InlineKeyboardMarkup([
-            [InlineKeyboardButton("BACK", callback_data="start_data"),
-                InlineKeyboardButton("ABOUT", callback_data="about_data")],
-            [InlineKeyboardButton("SUPPORT", url="https://t.me/I_Am_Devil_Mafia")]
+            [InlineKeyboardButton("🔙 BACK", callback_data="start_data"),
+             InlineKeyboardButton("ℹ️ ABOUT", callback_data="about_data")],
+            [InlineKeyboardButton("📞 SUPPORT", url="https://t.me/I_Am_Devil_Mafia")]
         ])
 
         await query.message.edit_text(
@@ -50,13 +48,12 @@ async def cb_handler(client, query):
         )
         return
 
-
     elif query.data == "about_data":
         await query.answer()
         keyboard = InlineKeyboardMarkup([
-            [InlineKeyboardButton("BACK", callback_data="help_data"),
-                InlineKeyboardButton("START", callback_data="start_data")],
-            [InlineKeyboardButton("SOURCE CODE", url="https://github.com/iamdevilmafia/iustreamextractor")]
+            [InlineKeyboardButton("🔙 BACK", callback_data="help_data"),
+             InlineKeyboardButton("🚀 START", callback_data="start_data")],
+            [InlineKeyboardButton("🔗 SOURCE CODE", url="https://github.com/iamdevilmafia/iustreamextractor")]
         ])
 
         await query.message.edit_text(
@@ -66,16 +63,14 @@ async def cb_handler(client, query):
         )
         return
 
-
     elif query.data == "download_file":
         await query.answer()
         await query.message.delete()
         await download_file(client, query.message)
 
-
     elif query.data == "progress_msg":
         try:
-            msg = "Progress Details...\n\nCompleted : {current}\nTotal Size : {total}\nSpeed : {speed}\nProgress : {progress:.2f}%\nETA: {eta}"
+            msg = "📊 **Progress Details**\n\n✅ Completed: {current}\n📦 Total Size: {total}\n⚡ Speed: {speed}\n📈 Progress: {progress:.2f}%\n⏳ ETA: {eta}"
             await query.answer(
                 msg.format(
                     **PRGRS[f"{query.message.chat.id}_{query.message.message_id}"]
@@ -84,18 +79,16 @@ async def cb_handler(client, query):
             )
         except:
             await query.answer(
-                "Processing your file...",
+                "⏳ Processing your file...",
                 show_alert=True
             )
 
-
-    elif query.data == "close": 
-        await query.message.delete()  
+    elif query.data == "close":
+        await query.message.delete()
         await query.answer(
-                "Cancelled...",
-                show_alert=True
-            ) 
-
+            "❌ Cancelled...",
+            show_alert=True
+        )
 
     elif query.data.startswith('audio'):
         await query.answer()
@@ -104,8 +97,7 @@ async def cb_handler(client, query):
             data = DATA[keyword][int(mapping)]
             await extract_audio(client, query.message, data)
         except:
-            await query.message.edit_text("**Details Not Found**")   
-
+            await query.message.edit_text("⚠️ **Details Not Found**")
 
     elif query.data.startswith('subtitle'):
         await query.answer()
@@ -114,19 +106,18 @@ async def cb_handler(client, query):
             data = DATA[keyword][int(mapping)]
             await extract_subtitle(client, query.message, data)
         except:
-            await query.message.edit_text("**Details Not Found**")  
-
+            await query.message.edit_text("⚠️ **Details Not Found**")
 
     elif query.data.startswith('cancel'):
         try:
             query_type, mapping, keyword = query.data.split('_')
-            data = DATA[keyword][int(mapping)] 
-            await clean_up(data['location'])  
-            await query.message.edit_text("**Cancelled...**")
+            data = DATA[keyword][int(mapping)]
+            await clean_up(data['location'])
+            await query.message.edit_text("❌ **Cancelled...**")
             await query.answer(
-                "Cancelled...",
+                "❌ Cancelled...",
                 show_alert=True
-            ) 
+            )
         except:
-            await query.answer() 
-            await query.message.edit_text("**Details Not Found**")        
+            await query.answer()
+            await query.message.edit_text("⚠️ **Details Not Found**")
