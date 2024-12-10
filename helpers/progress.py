@@ -1,5 +1,3 @@
-
-
 import os
 import time
 
@@ -24,13 +22,23 @@ async def progress_func(
         elapsed_time = TimeFormatter(milliseconds=elapsed_time)
         estimated_total_time = TimeFormatter(milliseconds=estimated_total_time)
 
+        # Add emojis to progress data
         PRGRS[f"{message.chat.id}_{message.id}"] = {  # Changed message_id to id
             "current": humanbytes(current),
             "total": humanbytes(total),
-            "speed": humanbytes(speed),
-            "progress": percentage,
-            "eta": elapsed_time
+            "speed": f"⚡ {humanbytes(speed)}/s",
+            "progress": f"📊 {percentage:.2f}%",
+            "eta": f"⏳ {elapsed_time}"
         }
+
+        # Sending or updating a progress message
+        await message.edit_text(
+            f"**{ud_type} Progress:**\n"
+            f"📥 Downloaded: {PRGRS[f'{message.chat.id}_{message.id}']['current']} / {PRGRS[f'{message.chat.id}_{message.id}']['total']}\n"
+            f"⚡ Speed: {PRGRS[f'{message.chat.id}_{message.id}']['speed']}\n"
+            f"📊 Progress: {PRGRS[f'{message.chat.id}_{message.id}']['progress']}\n"
+            f"⏳ ETA: {PRGRS[f'{message.chat.id}_{message.id}']['eta']}"
+        )
 
 
 def humanbytes(size):
